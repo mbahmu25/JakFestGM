@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer base {
+    .font-outline-2 {
+      -webkit-text-stroke: 1px #146E6C;
+    }
+    .font-outline-hover {
+      -webkit-text-stroke: 1px #FAFAFA;
+    }
+  }
