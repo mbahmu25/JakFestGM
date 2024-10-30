@@ -8,6 +8,7 @@ export default {
       },
       colors: {
         main: "#21434e",
+        darkmain: "#1d3b44",
         grad1: "#c8f52f",
         grad: "#06726c",
         whitepop: "#FAFAFA",

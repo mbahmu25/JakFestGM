@@ -108,9 +108,11 @@ function Dashboard() {
                 {/* tabel data */}
 
                 {detail == -1 ? (
-                  <div className="overflow-y-auto scroll-smooth h-[100%]">
+                  <div className="overflow-y-auto scroll-smooth h-[80%]">
                     <div className="font-poppins text-[12pt] border-b-2 border-gray-200  flex flex-col">
-                      <div className="text-[16pt] px-4 py-2  ">Indicator</div>
+                      <div className="text-[16pt] px-4 py-2 top-0 sticky bg-whitepop">
+                        Indikator
+                      </div>
                       <div className="overflow-y-auto scroll-smooth max-h-[300px]">
                         {data[sdg].map((e, i) => {
                           return (
@@ -156,7 +158,7 @@ function Dashboard() {
                       </div>
                     </div>
                     {/* Deskripsi */}
-                    <div className="flex flex-col p-4 border-b-2 border-gray-200">
+                    <div className="flex flex-col p-4">
                       <div className="text-[16pt]">Deskripsi</div>
                       {deskripsi[sdg]}
                     </div>
@@ -234,6 +236,9 @@ function Dashboard() {
                 data={admin}
                 key={refresh}
                 onEachFeature={(feature, layer) => {
+                  const Popup = ({ teks }) => (
+                    <div className="bg-[red]">{teks}</div>
+                  );
                   if (detail === -1) {
                     layer.setStyle({
                       fillColor:
@@ -256,6 +261,11 @@ function Dashboard() {
                     // setDetail(-1);
                   });
                   layer.on("mouseover", () => {
+                    layer
+                      .bindPopup(
+                        dataKota["kota"][feature["properties"]["kode"]]
+                      )
+                      .openPopup();
                     layer.setStyle({
                       color: "#ffff00",
                       weight: 5,

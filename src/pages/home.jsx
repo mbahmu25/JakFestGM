@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <>
       {/* Main Container */}
-      <div className="w-full h-screen flex flex-col font-poppins relative scroll-smooth">
+      <div className="w-full h-screen flex flex-col font-poppins relative scroll-smooth shadow-xl shadow-[black]/10">
         {/* Header */}
         <header className="absolute top-0 w-full z-10">
           <div className="bg-main flex justify-center text-white text-[14pt] p-2 shadow-xl items-center h-[6rem]">
@@ -68,12 +68,12 @@ export default function Home() {
           />
         </section>
       </div>
-      <div className="w-[100%] flex items-center text-center py-[4rem] px-[13rem] flex-col gap-4 bg-[#F5f5f5]">
-        <div>
+      <div className="w-[100%] flex items-center text-center py-[4rem] px-[13rem] flex-col gap-4 bg-[#F5f5f5] bg-main">
+        <div className="">
           <div className="font-poppins font-bold text-[24pt] py-[2rem] self-start">
             <span className="text-black bg-grad1 p-4">Tujuan Dashboard</span>
           </div>
-          <div className="font-poppins text-[16pt]">
+          <div className="font-poppins text-[16pt] text-[white]">
             Dashboard ini memberikan gambaran menyeluruh tentang pencapaian SDGs
             di bidang pendidikan dan faktor-faktor terkait di setiap wilayah,
             yang akan membantu perencanaan strategis pendidikan berkelanjutan di
@@ -81,12 +81,13 @@ export default function Home() {
             program kerja pemerintahan DI Jakarta terkait pendidikan.
           </div>
         </div>
-
+      </div>
+      <div className="w-[100%] flex items-center text-center py-[2rem] px-[13rem] flex-col gap-4 bg-[#F5f5f5]">
         <div className="flex flex-col gap-4 justify-center items-center">
           <span className="font-poppins font-bold text-[24pt] text-black bg-grad1 p-4">
             Fokus Kami
           </span>
-          <div className="flex flex-row gap-2 w-[75%] bg-[white] shadow-xl">
+          <div className="flex flex-row gap-2 w-[75%] bg-[white] shadow-xl overflow-hidden">
             <img
               src="./E_WEB_01.png"
               className="aspect-[1/1] h-[12rem] object-fill"
@@ -98,7 +99,7 @@ export default function Home() {
               mendorong kesetaraan akses pendidikan di wilayah Jakarta.
             </span>
           </div>
-          <div className="flex flex-row gap-2 w-[75%] bg-[white] shadow-xl">
+          <div className="flex flex-row gap-2 w-[75%] bg-[white] shadow-xl overflow-hidden">
             <img
               src="./E_WEB_03.png"
               className="aspect-[1/1] h-[12rem] object-fill"
@@ -111,7 +112,7 @@ export default function Home() {
               yang memadai di Jakarta.
             </span>
           </div>
-          <div className="flex flex-row gap-2 w-[75%] bg-[white] shadow-xl">
+          <div className="flex flex-row gap-2 w-[75%] bg-[white] shadow-xl overflow-hidden">
             <img
               src="./E_WEB_04.png"
               className="aspect-[1/1] h-[12rem] object-fill"
@@ -125,7 +126,7 @@ export default function Home() {
               berkelanjutan dan berkeadilan di Jakarta.
             </span>
           </div>
-          <div className="flex flex-row gap-2 w-[75%] bg-[white] shadow-xl">
+          <div className="flex flex-row gap-2 w-[75%] bg-[white] shadow-xl overflow-hidden">
             <img
               src="./E_WEB_08.png"
               className="aspect-[1/1] h-[12rem] object-fill"
@@ -180,6 +181,9 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <div className="w-[100%] flex items-center text-center text-[white] p-4 flex-col gap-4 bg-darkmain">
+        © Tim UGM 2024
+      </div>
     </>
   );
 }
@@ -188,7 +192,7 @@ export default function Home() {
 const Card = ({ judul, penerbit, tanggal, gambar, url }) => (
   <NavLink
     to={url}
-    className="flex flex-col w-[350px] bg-white shadow-lg rounded-lg overflow-hidden transition ease-in-out delay-50 hover:scale-110 duration-300"
+    className="flex flex-col w-[350px] bg-white shadow-lg overflow-hidden transition ease-in-out delay-50 hover:scale-[1.05] duration-300"
   >
     <img
       src={gambar}
