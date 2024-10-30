@@ -455,11 +455,11 @@ const data = {
   sdg4: sdg4,
   sdg8: sdg8,
 };
-const head = {
-  sdg1: "NO POVERTY",
-  sdg3: "GOOD HEALTH AND WELL-BEING",
-  sdg4: "QUALITY EDUCATION",
-  sdg8: "DECENT WORK AND ECONOMIC HEALTH",
+const deskripsi = {
+  sdg1: "Provinsi DKI Jakarta, sebagai ibu kota negara Indonesia, menghadapi tantangan signifikan dalam mencapai SDGs 1, yaitu mengakhiri segala bentuk kemiskinan di semua tempat. Sebagai pusat ekonomi dan pemerintahan, Jakarta memiliki peran strategis dalam upaya penanggulangan kemiskinan di Indonesia.",
+  sdg3: "Provinsi DKI Jakarta, sebagai ibu kota negara Indonesia, menghadapi tantangan signifikan dalam mencapai SDGs 3. Tujuan ini mencakup berbagai aspek kesehatan, seperti pengurangan angka kematian ibu dan bayi, peningkatan akses ke layanan kesehatan yang berkualitas, pencegahan penyakit, dan penyediaan obat-obatan serta vaksin yang terjangkau.",
+  sdg4: "Provinsi DKI Jakarta sebagai ibu kota negara Indonesia memiliki tantangan dan potensi besar dalam mencapai SDGs 4, yaitu memastikan pendidikan berkualitas yang inklusif dan merata serta mendorong kesempatan belajar seumur hidup untuk semua.",
+  sdg8: "Provinsi DKI Jakarta, sebagai ibu kota negara Indonesia, menghadapi tantangan signifikan dalam mencapai SDGs 8, yaitu mempromosikan pertumbuhan ekonomi yang inklusif dan berkelanjutan, kesempatan kerja penuh dan produktif, serta pekerjaan yang layak untuk semua. Sebagai pusat ekonomi dan pemerintahan, Jakarta memiliki peran strategis dalam menciptakan lapangan pekerjaan, mendukung perkembangan usaha kecil dan menengah, serta meningkatkan kualitas pekerjaan yang tersedia bagi masyarakat di Indonesia.",
 };
 const kota = {
   10001: "Kepulauan Seribu",
@@ -469,9 +469,15 @@ const kota = {
   10005: "Jakarta Barat",
   10006: "Jakarta Utara",
 };
-const score = {
-  3: "#43a047",
-  2: "#f5c400",
-  1: "#d32f2f",
+const head = {
+  sdg1: "NO POVERTY",
+  sdg3: "GOOD HEALTH AND WELL-BEING",
+  sdg4: "QUALITY EDUCATION",
+  sdg8: "DECENT WORK AND ECONOMIC HEALTH",
 };
-export { data, head, kota, score };
+const score = {
+  1: "#43a047",
+  2: "#f5c400",
+  3: "#d32f2f",
+};
+export { data, head, kota, score, deskripsi };

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { data, head, kota, score } from "../data/data";
+import { data, head, kota, score, deskripsi } from "../data/data";
 import "primeicons/primeicons.css";
 import admin from "../data/admin.json";
 import color from "../data/color.json";
@@ -9,30 +9,57 @@ import { NavLink } from "react-router-dom";
 import ReactEcharts from "echarts-for-react";
 import dataKota from "../data/dataKota.json";
 function Dashboard() {
-  const [select, setSelect] = useState("");
-  const [sdg, setSdg] = useState("sdg4");
+  const [select, setSelect] = useState("10001");
+  const [sdg, setSdg] = useState("sdg1");
   const [detail, setDetail] = useState(-1);
+  const [refresh, setRefresh] = useState(Math.random());
 
-  const Scoring = (data, detail) => {
+  const Scoring = (data) => {
     var dataArr = Object.values(data["data"]).map(
       (e) => e[Object.keys(kota).indexOf(select)]
     );
     var before = dataArr.slice(-2, -1)[0];
     var after = dataArr.slice(-1)[0];
-    console.log(after, before, ((after - before) / before) * 100);
-    if (((after - before) / before) * 100 >= 52) {
-      return 1;
-    } else if (((after - before) / before) * 100 >= 45) {
-      return 2;
+    if (100 - (before / after) * 100 >= 5) {
+      return {
+        id: data["code"] == 1 ? 1 : 3,
+        value: 100 - (before / after) * 100,
+      };
+    } else if (100 - (before / after) * 100 >= -5) {
+      return { id: 2, value: 100 - (before / after) * 100 };
     } else {
-      return 3;
+      return {
+        id: data["code"] == 1 ? 3 : 1,
+        value: 100 - (before / after) * 100,
+      };
+    }
+  };
+  const ScoringMap = (data, selectKota) => {
+    var dataArr = Object.values(data["data"]).map(
+      (e) => e[Object.keys(kota).indexOf(selectKota)]
+    );
+    var before = dataArr.slice(-2, -1)[0];
+    var after = dataArr.slice(-1)[0];
+    if (100 - (before / after) * 100 >= 5) {
+      return {
+        id: data["code"] == 1 ? 1 : 3,
+        value: 100 - (before / after) * 100,
+      };
+    } else if (100 - (before / after) * 100 >= -5) {
+      return { id: 2, value: 100 - (before / after) * 100 };
+    } else {
+      return {
+        id: data["code"] == 1 ? 3 : 1,
+        value: 100 - (before / after) * 100,
+      };
     }
   };
 
   return (
     <>
       <div className="w-[100%] h-[100vh] flex flex-col font-popppins">
-        <div className="w-full bg-main flex flex-col justify-center text-[white] text-[14pt] p-2 shadow-xl items-center">
+        {/* <head> */}
+        <div className="w-full bg-main flex flex-col justify-center text-[white] text-[14pt] p-2 shadow-xl items-center h-[6rem]">
           <div className="flex flex-row gap-4 ">
             <img
               src="./sdg.png"
@@ -51,10 +78,11 @@ function Dashboard() {
             </NavLink>
           </div>
         </div>
-        <div className="flex flex-row w-[100%] h-[100%] ">
+        {/* </head> */}
+        <div className="flex flex-row w-[100%] h-[calc(100vh-6rem)]">
           {/* Sidebar */}
-          <div className="flex flex-col w-[500px] h-[100%] bg-whitepop drop-shadow-md">
-            <div className="w-[100%] p-4 font-poppins bg-[white] shadow ">
+          <div className="flex flex-col w-[500px] h-[100%] bg-whitepop drop-shadow-md overflow-hidden">
+            <div className="w-[100%] p-4 font-poppins bg-[white] shadow-md border-b-2 border-gray-200">
               <span className="text-[10pt]">
                 SDG {sdg.toUpperCase().slice(-1)}
               </span>
@@ -62,16 +90,16 @@ function Dashboard() {
               <span className="text-[16pt]">{head[sdg]}</span>
             </div>
             {select != "" && (
-              <div className="flex flex-col">
-                <div className="p-4 border-b-2 border-gray-200 flex flex-row justify-between">
+              <div className="flex flex-col h-[100%]">
+                <div className="p-4 border-b-2 border-gray-200 flex flex-row justify-between bg-[#f5f5f5]">
                   <div className="font-poppins text-[16pt] font-bold">
                     {kota[select]}
                   </div>
                   <button
                     className="font-poppins text-[16pt]"
                     onClick={() => {
-                      setSelect("");
                       setDetail(-1);
+                      setRefresh(Math.random());
                     }}
                   >
                     <i className="pi pi-times" style={{ fontSize: "16pt" }}></i>
@@ -80,41 +108,79 @@ function Dashboard() {
                 {/* tabel data */}
 
                 {detail == -1 ? (
-                  <div className="font-poppins text-[12pt] border-b-2 border-gray-200 flex flex-col">
-                    {data[sdg].map((e, i) => {
-                      return (
-                        <button
-                          key={i}
-                          className="flex flex-row hover:bg-[#f0f0f0] p-2"
-                          onClick={() => {
-                            setDetail(i);
-                          }}
-                        >
-                          {/* <svg
-                            focusable="false"
-                            fill="#43a047"
-                            aria-hidden="true"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                          >
-                            <path d="M12 4.08A7.92 7.92 0 0 0 4.08 12 7.92 7.92 0 0 0 12 19.92 7.92 7.92 0 0 0 19.92 12 7.92 7.92 0 0 0 12 4.08Z"></path>
-                          </svg> */}
-                          <Trend c={Scoring(e, i)} />
-                          {e.title.slice(6)}
-                        </button>
-                      );
-                    })}
+                  <div className="overflow-y-auto scroll-smooth">
+                    <div className="font-poppins text-[12pt] border-b-2 border-gray-200  flex flex-col">
+                      <div className="text-[16pt] px-4 py-2  ">Indicator</div>
+                      <div className="overflow-y-auto scroll-smooth max-h-[300px]">
+                        {data[sdg].map((e, i) => {
+                          return (
+                            <button
+                              key={i}
+                              className="flex flex-row hover:bg-[#f0f0f0] px-4 py-2"
+                              onClick={() => {
+                                setDetail(i);
+                                setRefresh(Math.random());
+                              }}
+                            >
+                              <div className="flex flex-row text-left">
+                                <div className="w-[24px] aspect-[1/1]">
+                                  <Trend c={Scoring(e).id} />
+                                </div>
+                                {e.title.slice(6)}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    {/* Legenda */}
+                    <div className="flex flex-col p-4 border-b-2 border-gray-200 gap-2 font-poppins ">
+                      <div className="text-[16pt]">Legenda</div>
+                      <div className="flex flex-row text-left">
+                        <div className="w-[24px] aspect-[1/1]">
+                          <Trend c={1} />
+                        </div>
+                        Tren Positif Menuju Target SDG
+                      </div>
+                      <div className="flex flex-row text-left">
+                        <div className="w-[24px] aspect-[1/1]">
+                          <Trend c={2} />
+                        </div>
+                        Tren Stagnan dari Tahun Sebelumnya
+                      </div>
+                      <div className="flex flex-row text-left">
+                        <div className="w-[24px] aspect-[1/1]">
+                          <Trend c={3} />
+                        </div>
+                        Tren Negatif Menjauh dari Target SDG
+                      </div>
+                    </div>
+                    {/* Deskripsi */}
+                    <div className="flex flex-col p-4 border-b-2 border-gray-200">
+                      <div className="text-[16pt]">Deskripsi</div>
+                      {deskripsi[sdg]}
+                    </div>
                   </div>
                 ) : (
                   <div className="flex flex-col">
                     <div className="flex flex-col border-b border-gray-200">
-                      <div className="font-poppins text-[12pt] p-2 flex flex-col border-b border-gray-200 text-left">
-                        <span className="text-[15pt] ">Deskripsi</span>
-                        {data[sdg][detail]["deskripsi"]}
+                      <div className="font-poppins text-[12pt] p-4 flex flex-col border-b border-gray-200 text-left">
+                        <span className="text-[15pt] ">Trend</span>
+                        <div className="flex flex-row gap-2">
+                          {
+                            (data[sdg][detail]["deskripsi"],
+                            data[sdg][detail].title.slice(6))
+                          }
+                          <div className="w-[24px] aspect-[1/1]">
+                            <Trend c={Scoring(data[sdg][detail]).id} />
+                          </div>
+                        </div>
+
                         <ReactEcharts
                           option={{
+                            tooltip: {
+                              trigger: "item",
+                            },
                             xAxis: {
                               type: "category",
                               data: Object.keys(data[sdg][detail]["data"]),
@@ -123,14 +189,6 @@ function Dashboard() {
                               type: "value",
                             },
                             series: [
-                              // {
-                              //   data: Object.values(
-                              //     data[sdg][detail]["data"]
-                              //   ).map(
-                              //     (e) => e[Object.keys(kota).indexOf(select)]
-                              //   ),
-                              //   type: "bar",
-                              // },
                               {
                                 data: Object.values(
                                   data[sdg][detail]["data"]
@@ -138,15 +196,18 @@ function Dashboard() {
                                   (e) => e[Object.keys(kota).indexOf(select)]
                                 ),
                                 type: "line",
+                                color: score[Scoring(data[sdg][detail]).id],
                               },
                             ],
                           }}
-                          className="w-[100%] h-[100%]"
+                          className="w-[100%] h-[80%]"
                         />
                       </div>
                     </div>
-                    <div className="font-poppins text-[12pt] p-2 flex flex-col border-b border-gray-200">
-                      <span className="text-[15pt] ">Deskripsi</span>
+                    <div className="text-[12pt] p-4 flex flex-col border-b border-gray-200">
+                      <span className="text-[20pt] font-poppins ">
+                        Deskripsi
+                      </span>
                       {
                         data[sdg][detail]["desc"][
                           Object.keys(kota).indexOf(select)
@@ -171,19 +232,28 @@ function Dashboard() {
               <TileLayer url="https://server.arcgisonline.com/arcgis/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}" />
               <GeoJSON
                 data={admin}
-                key={sdg}
+                key={refresh}
                 onEachFeature={(feature, layer) => {
-                  console.log(
-                    score,
-                    dataKota[sdg][feature["properties"]["kode"]]
-                  );
-                  layer.setStyle({
-                    fillColor:
-                      score[dataKota[sdg][feature["properties"]["kode"]]],
-                  });
+                  if (detail === -1) {
+                    layer.setStyle({
+                      fillColor:
+                        score[dataKota[sdg][feature["properties"]["kode"]]],
+                    });
+                  } else {
+                    layer.setStyle({
+                      fillColor:
+                        score[
+                          ScoringMap(
+                            data[sdg][detail],
+                            feature["properties"]["kode"]
+                          ).id
+                        ],
+                    });
+                  }
                   layer.on("click", () => {
                     setSelect(feature["properties"]["kode"]);
-                    setDetail(-1);
+                    setRefresh(Math.random());
+                    // setDetail(-1);
                   });
                   layer.on("mouseover", () => {
                     layer.setStyle({
@@ -216,6 +286,7 @@ function Dashboard() {
                     sdg={"sdg1"}
                     setSdg={setSdg}
                     setDetail={setDetail}
+                    setRefresh={setRefresh}
                   />
                   <SDGs
                     normal={"./E_WEB_03.png"}
@@ -223,6 +294,7 @@ function Dashboard() {
                     sdg={"sdg3"}
                     setSdg={setSdg}
                     setDetail={setDetail}
+                    setRefresh={setRefresh}
                   />
                   <SDGs
                     normal={"./E_WEB_04.png"}
@@ -230,6 +302,7 @@ function Dashboard() {
                     sdg={"sdg4"}
                     setSdg={setSdg}
                     setDetail={setDetail}
+                    setRefresh={setRefresh}
                   />
                   <SDGs
                     normal={"./E_WEB_08.png"}
@@ -237,6 +310,7 @@ function Dashboard() {
                     sdg={"sdg8"}
                     setSdg={setSdg}
                     setDetail={setDetail}
+                    setRefresh={setRefresh}
                   />
                 </div>
               </div>
@@ -248,7 +322,7 @@ function Dashboard() {
   );
 }
 
-const SDGs = ({ normal, inv, sdg, setSdg, setDetail }) => {
+const SDGs = ({ normal, inv, sdg, setSdg, setDetail, setRefresh }) => {
   const [hover, setHover] = useState(true);
   //w-[100%] transition-all duration-600 drop-shadow-md ease-in-out ${drop ? "max-h-auto" : "max-h-[60px]"}
 
@@ -264,6 +338,7 @@ const SDGs = ({ normal, inv, sdg, setSdg, setDetail }) => {
       onClick={() => {
         setSdg(sdg);
         setDetail(-1);
+        setRefresh(Math.random());
       }}
     >
       {hover ? (
