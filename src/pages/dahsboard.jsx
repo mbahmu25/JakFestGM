@@ -9,7 +9,7 @@ import { NavLink } from "react-router-dom";
 import ReactEcharts from "echarts-for-react";
 import dataKota from "../data/dataKota.json";
 function Dashboard() {
-  const [select, setSelect] = useState("10001");
+  const [select, setSelect] = useState("10004");
   const [sdg, setSdg] = useState("sdg1");
   const [detail, setDetail] = useState(-1);
   const [refresh, setRefresh] = useState(Math.random());
@@ -63,7 +63,7 @@ function Dashboard() {
           <div className="flex flex-row gap-4 ">
             <img
               src="./sdg.png"
-              className="aspect-[1/1] w-[4.5rem] object-fill"
+              className="aspect-[1/1] w-[4.5rem] object-fill bg-[white] rounded-full"
             />
             <img
               src="./jakarta_satu.png"
@@ -81,7 +81,7 @@ function Dashboard() {
         {/* </head> */}
         <div className="flex flex-row w-[100%] h-[calc(100vh-6rem)]">
           {/* Sidebar */}
-          <div className="flex flex-col w-[500px] h-[100%] bg-whitepop drop-shadow-md overflow-hidden">
+          <div className="flex flex-col w-[500px] h-[calc(100vh-6rem)] bg-whitepop drop-shadow-md overflow-hidden">
             <div className="w-[100%] p-4 font-poppins bg-[white] shadow-md border-b-2 border-gray-200">
               <span className="text-[10pt]">
                 SDG {sdg.toUpperCase().slice(-1)}
@@ -108,7 +108,7 @@ function Dashboard() {
                 {/* tabel data */}
 
                 {detail == -1 ? (
-                  <div className="overflow-y-auto scroll-smooth">
+                  <div className="overflow-y-auto scroll-smooth h-[100%]">
                     <div className="font-poppins text-[12pt] border-b-2 border-gray-200  flex flex-col">
                       <div className="text-[16pt] px-4 py-2  ">Indicator</div>
                       <div className="overflow-y-auto scroll-smooth max-h-[300px]">
@@ -116,7 +116,7 @@ function Dashboard() {
                           return (
                             <button
                               key={i}
-                              className="flex flex-row hover:bg-[#f0f0f0] px-4 py-2"
+                              className="flex flex-row hover:bg-[#f0f0f0] px-4 py-2 w-[100%]"
                               onClick={() => {
                                 setDetail(i);
                                 setRefresh(Math.random());
